@@ -47312,7 +47312,7 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-9" }, [
-        _c("div", { staticClass: "card card-default" }, [
+        _c("div", { staticClass: "card card-default mb-4" }, [
           _c("div", { staticClass: "card-header" }, [_vm._v("Vocabularies")]),
           _vm._v(" "),
           _c(
@@ -47415,7 +47415,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
-      _c("div", { staticClass: "card card-default" }, [
+      _c("div", { staticClass: "card card-default mb-4" }, [
         _c("div", { staticClass: "card-header" }, [_vm._v("Users")]),
         _vm._v(" "),
         _c("ul", { staticClass: "list-group list-group-flush" }, [
