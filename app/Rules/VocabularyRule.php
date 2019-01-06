@@ -18,7 +18,7 @@ class VocabularyRule implements Rule
     {
         $lastCharacter = mb_substr( Vocabulary::latest()->first()->text, -1);
 
-        return $value[0] === $lastCharacter;
+        return strtolower($value[0]) === strtolower($lastCharacter);
     }
 
     /**

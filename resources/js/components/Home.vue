@@ -20,7 +20,7 @@
                         <span
                             v-for="(vocabulary) in vocabularies"
                             :key="vocabulary.id"
-                            class="badge text-capitalize mr-1 text-white"
+                            class="badge text-capitalize mr-1 text-white h5"
                             :style="`background-color: ${vocabulary.user.color}`"
                         >
                             {{ vocabulary.text }}

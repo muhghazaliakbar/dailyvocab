@@ -47323,7 +47323,7 @@ var render = function() {
                 "span",
                 {
                   key: vocabulary.id,
-                  staticClass: "badge text-capitalize mr-1 text-white",
+                  staticClass: "badge text-capitalize mr-1 text-white h5",
                   style: "background-color: " + vocabulary.user.color
                 },
                 [
