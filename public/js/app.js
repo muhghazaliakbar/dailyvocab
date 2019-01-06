@@ -1826,8 +1826,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -47388,19 +47386,17 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit", disabled: _vm.form.processing }
-                    },
-                    [
-                      _c("i", { staticClass: "fas fa-paper-plane" }),
-                      _vm._v(" Send\n                            ")
-                    ]
-                  )
-                ])
+                _c(
+                  "button",
+                  {
+                    staticClass: "w-25 btn btn-primary",
+                    attrs: { type: "submit", disabled: _vm.form.processing }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-paper-plane" }),
+                    _vm._v(" Send\n                        ")
+                  ]
+                )
               ]
             )
           ])

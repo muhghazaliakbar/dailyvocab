@@ -44,15 +44,13 @@
                                 </span>
                             </div>
 
-                            <div class="col">
-                                <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    :disabled="form.processing"
-                                >
-                                    <i class="fas fa-paper-plane"></i> Send
-                                </button>
-                            </div>
+                            <button
+                                type="submit"
+                                class="w-25 btn btn-primary"
+                                :disabled="form.processing"
+                            >
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
                         </form>
                     </div>
                 </div>
