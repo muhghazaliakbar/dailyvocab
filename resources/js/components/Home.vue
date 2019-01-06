@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-3">
                 <div class="card card-default mb-4">
-                    <div class="card-header">Users</div>
+                    <h5 class="card-header"><i class="fas fa-users text-success"></i> Users online</h5>
 
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Ghali</li>
@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-9">
                 <div class="card card-default mb-4">
-                    <div class="card-header">Vocabularies</div>
+                    <h5 class="card-header"><i class="fas fa-book text-info"></i> Vocabularies</h5>
 
                     <div class="card-body">
                         <span

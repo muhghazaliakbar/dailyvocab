@@ -47313,7 +47313,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-md-9" }, [
         _c("div", { staticClass: "card card-default mb-4" }, [
-          _c("div", { staticClass: "card-header" }, [_vm._v("Vocabularies")]),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "div",
@@ -47416,7 +47416,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("div", { staticClass: "card card-default mb-4" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Users")]),
+        _c("h5", { staticClass: "card-header" }, [
+          _c("i", { staticClass: "fas fa-users text-success" }),
+          _vm._v(" Users online")
+        ]),
         _vm._v(" "),
         _c("ul", { staticClass: "list-group list-group-flush" }, [
           _c("li", { staticClass: "list-group-item" }, [_vm._v("Ghali")]),
@@ -47428,6 +47431,15 @@ var staticRenderFns = [
           _c("li", { staticClass: "list-group-item" }, [_vm._v("Indah")])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fas fa-book text-info" }),
+      _vm._v(" Vocabularies")
     ])
   }
 ]
