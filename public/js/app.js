@@ -58801,8 +58801,8 @@ if (token) {
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: '653525d80e805491c7c3',
-  cluster: 'ap1',
+  key: "653525d80e805491c7c3",
+  cluster: "ap1",
   encrypted: true
 });
 
