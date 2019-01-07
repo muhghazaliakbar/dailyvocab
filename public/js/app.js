@@ -1818,6 +1818,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1829,12 +1833,14 @@ __webpack_require__.r(__webpack_exports__);
       vocabularies: [],
       form: new form_backend_validation__WEBPACK_IMPORTED_MODULE_0___default.a({
         text: ''
-      })
+      }),
+      userTyping: ''
     };
   },
   mounted: function mounted() {
     this.onGetVocabularies();
     this.onListenVocabularyChannel();
+    this.onListenUserTyping();
   },
   methods: {
     /**
@@ -1849,13 +1855,27 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /**
+     * Handle real-time user typing notification
+     */
+    onListenUserTyping: function onListenUserTyping() {
+      var _this2 = this;
+
+      Echo.private('typing').listenForWhisper('typing', function (e) {
+        _this2.userTyping = e.user.name;
+        setTimeout(function () {
+          _this2.userTyping = '';
+        }, 3000);
+      });
+    },
+
+    /**
      * Fetch vocabularies data.
      */
     onGetVocabularies: function onGetVocabularies() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/vocabularies').then(function (response) {
-        _this2.vocabularies = response.data;
+        _this3.vocabularies = response.data;
       }).catch(function (error) {
         alert('Can not fetch vocabularies data. check the errors in console.');
         console.error(error);
@@ -1866,13 +1886,22 @@ __webpack_require__.r(__webpack_exports__);
      * Handle on submit vocabulary data.
      */
     onSubmit: function onSubmit() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.form.post('/vocabularies').then(function (response) {
-        _this3.vocabularies.push(response);
+        _this4.vocabularies.push(response);
 
-        _this3.form.text = '';
+        _this4.form.text = '';
       });
+    },
+    onTyping: function onTyping() {
+      var channel = Echo.private('typing');
+      setTimeout(function () {
+        channel.whisper('typing', {
+          user: window.app.user,
+          typing: true
+        });
+      }, 300);
     }
   }
 });
@@ -47386,7 +47415,7 @@ var render = function() {
       [
         _c("users-online"),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-9" }, [
+        _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "card card-default mb-4" }, [
             _vm._m(0),
             _vm._v(" "),
@@ -47443,6 +47472,7 @@ var render = function() {
                       },
                       domProps: { value: _vm.form.text },
                       on: {
+                        keydown: _vm.onTyping,
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -47450,17 +47480,7 @@ var render = function() {
                           _vm.$set(_vm.form, "text", $event.target.value)
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _vm.form.errors.has("text")
-                      ? _c("span", { staticClass: "form-text text-danger" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(_vm.form.errors.first("text")) +
-                              "\n                            "
-                          )
-                        ])
-                      : _vm._e()
+                    })
                   ]),
                   _vm._v(" "),
                   _c(
@@ -47475,7 +47495,23 @@ var render = function() {
                     ]
                   )
                 ]
-              )
+              ),
+              _vm._v(" "),
+              _vm.form.errors.has("text")
+                ? _c("span", { staticClass: "form-text text-danger" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.form.errors.first("text")) +
+                        "\n                    "
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.userTyping
+                ? _c("span", { staticClass: "font-italic" }, [
+                    _vm._v(_vm._s(_vm.userTyping) + " is typing...")
+                  ])
+                : _vm._e()
             ])
           ])
         ])
@@ -47516,7 +47552,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-3" }, [
+  return _c("div", { staticClass: "col-md-4" }, [
     _c("div", { staticClass: "card card-default mb-4" }, [
       _vm._m(0),
       _vm._v(" "),

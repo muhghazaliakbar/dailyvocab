@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card card-default mb-4">
             <h5 class="card-header">
                 <i class="fas fa-users text-success"></i> Users online

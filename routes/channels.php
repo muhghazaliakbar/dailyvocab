@@ -14,3 +14,7 @@
 Broadcast::channel('online', function ($user) {
     return $user;
 });
+
+Broadcast::channel('typing', function () {
+    return Auth::check();
+});

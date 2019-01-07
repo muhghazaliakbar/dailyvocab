@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <users-online/>
 
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div class="card card-default mb-4">
                     <h5 class="card-header"><i class="fas fa-book text-info"></i> Vocabularies</h5>
 
@@ -26,13 +26,8 @@
                                     type="text"
                                     class="form-control mr-sm-2"
                                     placeholder="Add vocabulary here..."
+                                    @keydown="onTyping"
                                 >
-                                <span
-                                    v-if="form.errors.has('text')"
-                                    class="form-text text-danger"
-                                >
-                                    {{ form.errors.first('text') }}
-                                </span>
                             </div>
 
                             <button
@@ -43,6 +38,15 @@
                                 <i class="fas fa-paper-plane"></i> Send
                             </button>
                         </form>
+
+                        <span
+                            v-if="form.errors.has('text')"
+                            class="form-text text-danger"
+                        >
+                            {{ form.errors.first('text') }}
+                        </span>
+
+                        <span v-if="userTyping" class="font-italic">{{ userTyping }} is typing...</span>
                     </div>
                 </div>
             </div>
@@ -64,13 +68,15 @@
                 vocabularies: [],
                 form: new Form({
                     text: ''
-                })
+                }),
+                userTyping: ''
             }
         },
 
         mounted() {
             this.onGetVocabularies();
             this.onListenVocabularyChannel();
+            this.onListenUserTyping()
         },
 
         methods: {
@@ -81,6 +87,20 @@
                 Echo.channel('vocabulary')
                     .listen('.vocabulary.created', (e) => {
                         this.vocabularies.push(e.vocabulary)
+                    });
+            },
+
+            /**
+             * Handle real-time user typing notification
+             */
+            onListenUserTyping() {
+                Echo.private('typing')
+                    .listenForWhisper('typing', (e) => {
+                        this.userTyping = e.user.name;
+
+                        setTimeout(() => {
+                            this.userTyping = '';
+                        }, 3000)
                     });
             },
 
@@ -107,6 +127,17 @@
                         this.vocabularies.push(response);
                         this.form.text = '';
                     });
+            },
+
+            onTyping() {
+                let channel = Echo.private('typing');
+
+                setTimeout(() => {
+                    channel.whisper('typing', {
+                        user: window.app.user,
+                        typing: true
+                    })
+                }, 300)
             }
         }
     }
