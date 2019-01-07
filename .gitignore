@@ -24,4 +24,4 @@ sitemap.xml
 yarn-error.log
 .env
 .phpunit.result.cache
-.idea
+/.idea
