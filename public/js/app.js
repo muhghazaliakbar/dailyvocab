@@ -1826,33 +1826,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      onlineUsers: '',
       vocabularies: [],
       form: new form_backend_validation__WEBPACK_IMPORTED_MODULE_0___default.a({
         text: ''
       })
     };
   },
-  created: function created() {
-    var _this = this;
-
+  mounted: function mounted() {
     this.onGetVocabularies();
-    Echo.channel('vocabulary').listen('.vocabulary.created', function (e) {
-      _this.vocabularies.push(e.vocabulary);
-    });
+    this.onListenVocabularyChannel();
+    this.onUsersOnline();
   },
   methods: {
+    /**
+     * Handle real-time vocabulary channel event.
+     */
+    onListenVocabularyChannel: function onListenVocabularyChannel() {
+      var _this = this;
+
+      Echo.channel('vocabulary').listen('.vocabulary.created', function (e) {
+        _this.vocabularies.push(e.vocabulary);
+      });
+    },
+
+    /**
+     * Handle real-time online users event.
+     */
+    onUsersOnline: function onUsersOnline() {
+      var _this2 = this;
+
+      Echo.join('online').here(function (users) {
+        _this2.onlineUsers = users;
+      }).joining(function (user) {
+        _this2.onlineUsers.push(user);
+      }).leaving(function (user) {
+        _this2.onlineUsers = _this2.onlineUsers.filter(function (onlineUser) {
+          return onlineUser.id !== user.id;
+        });
+      });
+    },
+
     /**
      * Fetch vocabularies data.
      */
     onGetVocabularies: function onGetVocabularies() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/vocabularies').then(function (response) {
-        _this2.vocabularies = response.data;
+        _this3.vocabularies = response.data;
       }).catch(function (error) {
         alert('Can not fetch vocabularies data. check the errors in console.');
         console.error(error);
@@ -1863,13 +1894,23 @@ __webpack_require__.r(__webpack_exports__);
      * Handle on submit vocabulary data.
      */
     onSubmit: function onSubmit() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.form.post('/vocabularies').then(function (response) {
-        _this3.vocabularies.push(response);
+        _this4.vocabularies.push(response);
 
-        _this3.form.text = '';
+        _this4.form.text = '';
       });
+    },
+
+    /**
+     * Check if user is current user online.
+     * 
+     * @param user
+     * @return {boolean}
+     */
+    isCurrentUser: function isCurrentUser(user) {
+      return window.app.user.id === user.id;
     }
   }
 });
@@ -47307,11 +47348,43 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "card card-default mb-4" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "list-group list-group-flush" },
+            _vm._l(_vm.onlineUsers, function(user) {
+              return _c(
+                "li",
+                {
+                  key: user.id,
+                  staticClass:
+                    "list-group-item d-flex flex-row justify-content-between"
+                },
+                [
+                  _c("div", [
+                    _vm._v(_vm._s(user.name) + " "),
+                    _vm.isCurrentUser(user)
+                      ? _c("span", { staticClass: "text-muted" }, [
+                          _vm._v("(You)")
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1, true)
+                ]
+              )
+            }),
+            0
+          )
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-9" }, [
         _c("div", { staticClass: "card card-default mb-4" }, [
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "div",
@@ -47410,24 +47483,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("div", { staticClass: "card card-default mb-4" }, [
-        _c("h5", { staticClass: "card-header" }, [
-          _c("i", { staticClass: "fas fa-users text-success" }),
-          _vm._v(" Users online")
-        ]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-group list-group-flush" }, [
-          _c("li", { staticClass: "list-group-item" }, [_vm._v("Ghali")]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _vm._v("Ari Mutiara Arief")
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [_vm._v("Indah")])
-        ])
-      ])
+    return _c("h5", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fas fa-users text-success" }),
+      _vm._v(" Users online")
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("i", { staticClass: "fa fa-circle text-success" })])
   },
   function() {
     var _vm = this

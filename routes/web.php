@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('vocabularies', 'VocabulariesController@index');
 Route::post('vocabularies', 'VocabulariesController@store');
+
+Route::put('/user/{user}/online', 'UserOnlineController');

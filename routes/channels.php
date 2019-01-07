@@ -11,6 +11,6 @@
 |
 */
 
-//Broadcast::channel('vocabulary', function ($vocabulary) {
-//    return $vocabulary;
-//});
+Broadcast::channel('online', function ($user) {
+    return $user;
+});

@@ -6,9 +6,14 @@
                     <h5 class="card-header"><i class="fas fa-users text-success"></i> Users online</h5>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Ghali</li>
-                        <li class="list-group-item">Ari Mutiara Arief</li>
-                        <li class="list-group-item">Indah</li>
+                        <li
+                            v-for="user in onlineUsers"
+                            :key="user.id"
+                            class="list-group-item d-flex flex-row justify-content-between"
+                        >
+                            <div>{{ user.name }} <span v-if="isCurrentUser(user)" class="text-muted">(You)</span></div>
+                            <div><i class="fa fa-circle text-success"></i></div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -65,6 +70,7 @@
     export default {
         data() {
             return {
+                onlineUsers: '',
                 vocabularies: [],
                 form: new Form({
                     text: ''
@@ -72,16 +78,41 @@
             }
         },
 
-        created() {
+        mounted() {
             this.onGetVocabularies();
-
-            Echo.channel('vocabulary')
-                .listen('.vocabulary.created', (e) => {
-                    this.vocabularies.push(e.vocabulary)
-                })
+            this.onListenVocabularyChannel();
+            this.onUsersOnline();
         },
 
         methods: {
+            /**
+             * Handle real-time vocabulary channel event.
+             */
+            onListenVocabularyChannel() {
+                Echo.channel('vocabulary')
+                    .listen('.vocabulary.created', (e) => {
+                        this.vocabularies.push(e.vocabulary)
+                    });
+            },
+
+            /**
+             * Handle real-time online users event.
+             */
+            onUsersOnline() {
+                Echo.join('online')
+                    .here((users) => {
+                        this.onlineUsers = users
+                    })
+                    .joining((user) => {
+                        this.onlineUsers.push(user)
+                    })
+                    .leaving((user) => {
+                        this.onlineUsers = this.onlineUsers.filter((onlineUser) => {
+                            return onlineUser.id !== user.id
+                        })
+                    })
+            },
+
             /**
              * Fetch vocabularies data.
              */
@@ -105,6 +136,16 @@
                         this.vocabularies.push(response);
                         this.form.text = '';
                     });
+            },
+
+            /**
+             * Check if user is current user online.
+             * 
+             * @param user
+             * @return {boolean}
+             */
+            isCurrentUser(user) {
+                return window.app.user.id === user.id;
             }
         }
     }
