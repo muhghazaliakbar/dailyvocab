@@ -129,13 +129,15 @@
                     });
             },
 
+            /**
+             * Handle real-time user typing event.
+             */
             onTyping() {
                 let channel = Echo.private('typing');
 
                 setTimeout(() => {
                     channel.whisper('typing', {
-                        user: window.app.user,
-                        typing: true
+                        user: window.app.user
                     })
                 }, 300)
             }

@@ -1894,12 +1894,15 @@ __webpack_require__.r(__webpack_exports__);
         _this4.form.text = '';
       });
     },
+
+    /**
+     * Handle real-time user typing event.
+     */
     onTyping: function onTyping() {
       var channel = Echo.private('typing');
       setTimeout(function () {
         channel.whisper('typing', {
-          user: window.app.user,
-          typing: true
+          user: window.app.user
         });
       }, 300);
     }
