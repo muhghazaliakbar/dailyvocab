@@ -47578,7 +47578,12 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm._m(1, true)
+              _c("div", [
+                _c("i", {
+                  staticClass: "fa fa-circle",
+                  style: "color: " + user.color
+                })
+              ])
             ]
           )
         }),
@@ -47596,12 +47601,6 @@ var staticRenderFns = [
       _c("i", { staticClass: "fas fa-users text-success" }),
       _vm._v(" Users online\n        ")
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("i", { staticClass: "fa fa-circle text-success" })])
   }
 ]
 render._withStripped = true

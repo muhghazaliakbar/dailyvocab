@@ -12,7 +12,7 @@
                     class="list-group-item d-flex flex-row justify-content-between"
                 >
                     <div>{{ user.name }} <span v-if="isCurrentUser(user)" class="text-muted">(You)</span></div>
-                    <div><i class="fa fa-circle text-success"></i></div>
+                    <div><i class="fa fa-circle" :style="`color: ${user.color}`"></i></div>
                 </li>
             </ul>
         </div>
